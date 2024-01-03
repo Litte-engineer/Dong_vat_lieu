@@ -13,8 +13,10 @@ typedef struct
   uint8_t en_run_mode;
   uint8_t en_setup_mode;
 
+  uint8_t emergency;
+
   uint8_t run;
-  
+
   uint8_t pro_input;
 } Status;
 Status status;
@@ -103,7 +105,31 @@ void run_mode(void)
 /********** chay mo hinh *******/
 void run_function(void)
 {
-  if(status.run == 0)
+  if (status.emergency == 0)
+  {
+    if (status.start_bnt == 1 && status.stop_bnt == 0 && status.run != 0) status.emergency = 1;
+
+    if (status.run == 0)
+    {
+      BANG_TAI_OFF;
+      DOUBLE_MOTOR_OFF;
+      CTR_OFF;
+      if (status.start_bnt == 0 && status.stop_bnt == 1)
+      {
+        BANG_TAI_ON;
+        status.run = 1;
+      }
+    }
+    if (status.run == 1)
+    {
+      if (status.ir1 == 0)
+      {
+        delay(100);    /// thoi gian de bang tai dung
+        BANG_TAI_OFF;
+      }
+    }
+  }
+  else
   {
     BANG_TAI_OFF;
     DOUBLE_MOTOR_OFF;
@@ -249,7 +275,7 @@ void lcd_cursor()
   switch (status.cursor)
   {
     case 0 :
-      uint16_t adc_value = analogRead(A3);
+      uint16_t adc_value = analogRead(POT2);
       if (adc_value > 1000) adc_value = 1000;
       set_weight = adc_value;
       break;
