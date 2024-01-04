@@ -108,7 +108,7 @@ void run_function(void)
   if (status.emergency == 0)
   {
     if (status.start_bnt == 1 && status.stop_bnt == 0 && status.run != 0) status.emergency = 1;
-
+    
     if (status.run == 0)
     {
       BANG_TAI_OFF;
@@ -126,8 +126,18 @@ void run_function(void)
       {
         delay(100);    /// thoi gian de bang tai dung
         BANG_TAI_OFF;
+
+        CTR_ON;
+        delay(100);
+        status.run = 2;
       }
     }
+
+    if(status.run == 2)
+    {
+      
+    }
+    
   }
   else
   {
