@@ -5,6 +5,7 @@
 #include <stdio.h>
 
 #define ADD_COUNTER 0
+#define ADD_WEIGHT 2
 
 
 /**** khai bao chan loadcell *****/
@@ -15,9 +16,13 @@ HX711 scale;
 
 
 /****** khai bao chan A4988 ****/
+#include <AccelStepper.h>
+
 #define STEP_STEP   3
 #define STEP_EN     7
-#define STEP_DIR    2
+#define STEP_DIR    A0
+
+AccelStepper Step1(1,STEP_STEP,STEP_DIR,STEP_DIR);
 
 
 
@@ -29,9 +34,9 @@ LiquidCrystal_I2C lcd(0x27, 16, 4);
 
 
 /****** KHAI BAO INPUT ******/
-#define H92B4_PIN    12
+#define H92B4_PIN    2
 #define IR1          A2
-#define IR2          A0
+#define IR2          13
 #define START_BNT    6
 #define STOP_BNT     5
 #define POT2         A3
@@ -51,7 +56,7 @@ LiquidCrystal_I2C lcd(0x27, 16, 4);
 #define BANG_TAI_ON    analogWrite(BANG_TAI, 75)
 #define BANG_TAI_OFF   digitalWrite(BANG_TAI, LOW)
 
-#define DOUBLE_MOTOR_ON   analogWrite(DOUBLE_MOTOR, 75)
+#define DOUBLE_MOTOR_ON   analogWrite(DOUBLE_MOTOR, 100)
 #define DOUBLE_MOTOR_OFF   digitalWrite(DOUBLE_MOTOR, LOW)
 
 
@@ -66,7 +71,17 @@ int readIntFromEEPROM(int address) {
   return (highByteValue << 8) | lowByteValue;
 }
 
-
+/*int read_loadcell()
+{   
+  float units;
+  scale.set_scale(calibration_factor); //Điều chỉnh hệ số hiệu chuẩn này
+  units = scale.get_units(), 10;
+  if (units < 0) 
+  {
+    units = 0.00;
+  }
+  return (int)units;
+}*/
 
 
 
