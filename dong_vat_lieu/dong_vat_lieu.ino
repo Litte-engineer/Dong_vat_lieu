@@ -199,7 +199,29 @@ void run_function(void)
       if (weight >=  set_weight) status.run = 4;
     }
     /*********** buoc 4 ********/
-    if (status.run == 4)
+    if(status.run  == 4)
+    {
+      if (status.pro_input == 0)
+      {
+        digitalWrite(STEP_EN, LOW);
+        Step1.moveTo (-50);
+        Step1.setMaxSpeed(50);
+        Step1.setAcceleration(100);
+        Step1.run();
+        if (Step1.currentPosition() == -50) status.run = 5;
+      }
+      else
+      {
+        digitalWrite(STEP_EN, LOW);
+        Step1.moveTo (50);
+        Step1.setMaxSpeed(50);
+        Step1.setAcceleration(100);
+        Step1.run();
+        if (Step1.currentPosition() == 50) status.run = 5;
+      }
+    }
+    /*********** buoc 4 ********/
+    if (status.run == 5)
     {
       CTR_OFF;
       delay(3000);
@@ -208,7 +230,7 @@ void run_function(void)
       status.run = 5;
     }
     /*********** buoc 5 ********/
-    if (status.run == 5)
+    if (status.run == 6)
     {
       delay(5000);
       counter = counter + 1;
