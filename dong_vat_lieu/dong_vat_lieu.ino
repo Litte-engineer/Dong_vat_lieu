@@ -410,16 +410,10 @@ void lcd_cursor(void)
     if (count_time == 2)
     {
       status.cursor ++;
-
       if (status.cursor > 2) status.cursor = 0;
     }
   }
-  else if (status.start_bnt == 1 && status.stop_bnt == 1)
-  {
-    count_input = 0;
-    count_reset = 0;
-    count_time = 0;
-  }
+  else if (status.start_bnt == 1 && status.stop_bnt == 1) count_time = 0;
 
   switch (status.cursor)
   {
@@ -442,6 +436,7 @@ void lcd_cursor(void)
           counter = 0;
         }
       }
+      else if(status.start_bnt == 1 && status.stop_bnt == 1) count_reset = 0;
       break;
 
     case 2 :
@@ -458,6 +453,7 @@ void lcd_cursor(void)
           status.pro_input = !status.pro_input;
         }
       }
+      else if (status.start_bnt == 1 && status.stop_bnt == 1) count_input = 0;
       break;
   }
 }
